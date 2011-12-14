@@ -1,0 +1,104 @@
+/* allgemeine Definition */
+.sc {
+	margin-left:0 !important;
+	margin-right:0 !important;
+	padding-left:0 !important;
+}
+.sc-first {
+}
+.sc-last {
+}
+.sc-clear {
+	clear:left;
+}
+
+/* 2-spaltig */
+.sc2 {
+	width:49.5%;padding-right:1%;float:left;display:inline;
+}
+.sc2-first {
+	clear:left;
+}
+.sc2-last {
+	padding-right:0;
+}
+
+/* 3-spaltig */
+.sc3 {
+	width:32.3%;padding-right:1%;float:left;display:inline;
+}
+.sc3-first {
+	clear:left;
+}
+.sc3-last {
+	padding-right:1.1%;
+}
+.sc3-2 {
+	width:65.6%;padding-right:1%;float:left;display:inline;
+}
+.sc3-2-first {
+	clear:left;
+}
+.sc3-2-last {
+	padding-right:1.1%;
+}
+
+/* 4-spaltig */
+.sc4 {
+	width:24%;padding-right:1%;float:left;display:inline;
+}
+.sc4-first {
+	clear:left;
+}
+.sc4-last {
+}
+.sc4-2 {
+	width:49%;padding-right:1%;float:left;display:inline;
+}
+.sc4-2-first {
+	clear:left;
+}
+.sc4-2-last {
+}
+.sc4-3 {
+	width:74%;padding-right:1%;float:left;display:inline;
+}
+.sc4-3-first {
+	clear:left;
+}
+.sc4-3-last {
+}
+
+/* 5-spaltig */
+.sc5 {
+	width:19%;padding-right:1%;float:left;display:inline;
+}
+.sc5-first {
+	clear:left;
+}
+.sc5-last {
+}
+.sc5-2 {
+	width:39%;padding-right:1%;float:left;display:inline;
+}
+.sc5-2-first {
+	clear:left;
+}
+.sc5-2-last {
+}
+.sc5-3 {
+	width:59%;padding-right:1%;float:left;display:inline;
+}
+.sc5-3-first {
+	clear:left;
+}
+.sc5-3-last {
+}
+.sc5-4 {
+	width:79%;padding-right:1%;float:left;display:inline;
+}
+.sc5-4-first {
+	clear:left;
+}
+.sc5-4-last {
+}

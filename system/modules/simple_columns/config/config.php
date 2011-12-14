@@ -2,6 +2,8 @@
 
 
 $GLOBALS['TL_CTE']['texts']['text'] = 'SimpleColumnsContentText';
+$GLOBALS['TL_CTE']['texts']['list'] = 'SimpleColumnsContentList';
+$GLOBALS['TL_CTE']['texts']['table'] = 'SimpleColumnsContentTable';
 $GLOBALS['TL_CTE']['images']['image'] = 'SimpleColumnsContentImage';
 $GLOBALS['TL_CTE']['texts']['headline'] = 'SimpleColumnsContentHeadline';
 #$GLOBALS['TL_CTE']['includes']['module'] = 'SimpleColumnsContentModule';

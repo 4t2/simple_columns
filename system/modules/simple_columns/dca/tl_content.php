@@ -6,6 +6,10 @@
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['text'] = str_replace('{text_legend},text;', '{text_legend},text;{simple_columns_legend},simple_columns,simple_columns_close;', $GLOBALS['TL_DCA']['tl_content']['palettes']['text']);
 
+$GLOBALS['TL_DCA']['tl_content']['palettes']['list'] = str_replace('{expert_legend:hide}', '{simple_columns_legend},simple_columns,simple_columns_close;{expert_legend:hide}', $GLOBALS['TL_DCA']['tl_content']['palettes']['list']);
+
+$GLOBALS['TL_DCA']['tl_content']['palettes']['table'] = str_replace('{expert_legend:hide}', '{simple_columns_legend},simple_columns,simple_columns_close;{expert_legend:hide}', $GLOBALS['TL_DCA']['tl_content']['palettes']['table']);
+
 $GLOBALS['TL_DCA']['tl_content']['palettes']['image'] = str_replace('{expert_legend:hide}', '{simple_columns_legend},simple_columns,simple_columns_close;{expert_legend:hide}', $GLOBALS['TL_DCA']['tl_content']['palettes']['image']);
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['teaser'] = str_replace('{expert_legend:hide}', '{simple_columns_legend},simple_columns,simple_columns_close;{expert_legend:hide}', $GLOBALS['TL_DCA']['tl_content']['palettes']['teaser']);

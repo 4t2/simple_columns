@@ -31,10 +31,13 @@ class SimpleColumnsHook extends Frontend {
 
 	public function myGetContentElement($objElement, $strBuffer)
 	{
-		if ($endTagPos = strpos($strBuffer, '>'))
+		if ($objElement->simple_columns == '')
 		{
-			$firstTag = substr($strBuffer, 1, $endTagPos);
-
+			return $strBuffer;
+		}
+		
+		if (preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		{
 			if (($objElement->simple_columns != '') && !empty($GLOBALS['SIMPLECOLUMNS']['style']))
 			{
 				$GLOBALS['TL_CSS'][] = $GLOBALS['SIMPLECOLUMNS']['style'];
@@ -82,16 +85,15 @@ class SimpleColumnsHook extends Frontend {
 				}
 
 				$count = 0;
-				$firstTag = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $firstTag, 1, $count);
+				$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
 				
 				if ($count < 1)
 				{
-					$firstTag = str_replace('>', ' class="'.$scClass.'">', $firstTag);
+					$match[2] = str_replace('>', ' class="'.$scClass.'">', $match[2]);
 				}
 				
-				$strBuffer = $firstTag . substr($strBuffer, $endTagPos+1);
+				$strBuffer = $match[1].$match[2].$match[3];
 			}
-		
 		}
 
 		return $strBuffer;

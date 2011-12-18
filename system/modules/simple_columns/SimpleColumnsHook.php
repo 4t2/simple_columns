@@ -44,11 +44,6 @@ class SimpleColumnsHook extends Frontend {
 				$GLOBALS['SIMPLECOLUMNS']['style'] = '';
 			}
 	
-			if ($objElement->simple_columns_close && !empty($GLOBALS['SIMPLECOLUMNS']['close']))
-			{
-				$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
-			}
-
 			if ($objElement->simple_columns != '')
 			{
 				global $simpleColumnCounter;
@@ -93,6 +88,11 @@ class SimpleColumnsHook extends Frontend {
 				}
 				
 				$strBuffer = $match[1].$match[2].$match[3];
+
+				if ($objElement->simple_columns_close && !empty($GLOBALS['SIMPLECOLUMNS']['close']))
+				{
+					$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
+				}
 			}
 		}
 

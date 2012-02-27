@@ -35,18 +35,20 @@ class SimpleColumnsHook extends Frontend {
 		{
 			return $strBuffer;
 		}
-		
+
 		if (preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
-			if (($objElement->simple_columns != '') && !empty($GLOBALS['SIMPLECOLUMNS']['style']))
+			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']))
 			{
 				$GLOBALS['TL_CSS'][] = $GLOBALS['SIMPLECOLUMNS']['style'];
 				$GLOBALS['SIMPLECOLUMNS']['style'] = '';
 			}
-	
+
 			if ($objElement->simple_columns != '')
 			{
 				global $simpleColumnCounter;
+				
+				$be_html = '<div>';
 		
 				if (!is_array($simpleColumnCounter))
 				{
@@ -57,11 +59,24 @@ class SimpleColumnsHook extends Frontend {
 
 				$columns = (strlen($objElement->simple_columns) == 1 ? (int)$objElement->simple_columns : (int)substr($objElement->simple_columns, 0, 1));
 				$columnCount = (strlen($objElement->simple_columns) == 1 ? 1 : (int)substr($objElement->simple_columns, 2, 1));
+
+				for ($i=0; $i<$simpleColumnCounter[$columns]; $i++)
+				{
+					$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
+				}
+
+				$be_html .= '<img src="system/modules/simple_columns/html/images/column.png" width="'.($columnCount*10+($columnCount-1)*4).'" height="10" alt="" style="margin:2px">';
+
+				for ($i=$simpleColumnCounter[$columns]+$columnCount; $i<$columns; $i++)
+				{
+					$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
+				}
 		
 				if ($simpleColumnCounter[$columns] == 0)
 				{
 					$scClass .= ' sc-first sc' . $objElement->simple_columns . '-first';
 					$simpleColumnCounter[$columns] += $columnCount;
+					
 				}
 				elseif ($simpleColumnCounter[$columns] < $columns-$columnCount)
 				{
@@ -93,9 +108,15 @@ class SimpleColumnsHook extends Frontend {
 				{
 					$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
 				}
+				
+				if (TL_MODE == 'BE')
+				{
+					$strBuffer = $be_html . '</div>' . $strBuffer;
+				}
+				
 			}
 		}
-
+		
 		return $strBuffer;
 	}
 

@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2011
+ * @copyright  Lingo4you 2012
  * @author     Mario Müller <http://www.lingo4u.de/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
@@ -71,42 +71,45 @@ class SimpleColumnsHook extends Frontend {
 				{
 					$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
 				}
-		
-				if ($simpleColumnCounter[$columns] == 0)
+
+				if (TL_MODE == 'FE')
 				{
-					$scClass .= ' sc-first sc' . $objElement->simple_columns . '-first';
-					$simpleColumnCounter[$columns] += $columnCount;
+					if ($simpleColumnCounter[$columns] == 0)
+					{
+						$scClass .= ' sc-first sc' . $objElement->simple_columns . '-first';
+						$simpleColumnCounter[$columns] += $columnCount;
+						
+					}
+					elseif ($simpleColumnCounter[$columns] < $columns-$columnCount)
+					{
+						$simpleColumnCounter[$columns] += $columnCount;
+					}
+					else
+					{
+						$scClass .= ' sc-last sc' . $objElement->simple_columns . '-last';
+						$simpleColumnCounter[$columns] = 0;
+						$objElement->simple_columns_close = true;
+					}
+	
+					if ($this->simple_columns_close)
+					{
+						$scClass .= ' sc-close';
+					}
+	
+					$count = 0;
+					$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
 					
-				}
-				elseif ($simpleColumnCounter[$columns] < $columns-$columnCount)
-				{
-					$simpleColumnCounter[$columns] += $columnCount;
-				}
-				else
-				{
-					$scClass .= ' sc-last sc' . $objElement->simple_columns . '-last';
-					$simpleColumnCounter[$columns] = 0;
-					$objElement->simple_columns_close = true;
-				}
-
-				if ($this->simple_columns_close)
-				{
-					$scClass .= ' sc-close';
-				}
-
-				$count = 0;
-				$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
-				
-				if ($count < 1)
-				{
-					$match[2] = str_replace('>', ' class="'.$scClass.'">', $match[2]);
-				}
-				
-				$strBuffer = $match[1].$match[2].$match[3];
-
-				if ($objElement->simple_columns_close && !empty($GLOBALS['SIMPLECOLUMNS']['close']))
-				{
-					$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
+					if ($count < 1)
+					{
+						$match[2] = str_replace('>', ' class="'.$scClass.'">', $match[2]);
+					}
+					
+					$strBuffer = $match[1].$match[2].$match[3];
+	
+					if ($objElement->simple_columns_close && !empty($GLOBALS['SIMPLECOLUMNS']['close']))
+					{
+						$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
+					}
 				}
 				
 				if (TL_MODE == 'BE')

@@ -50,52 +50,59 @@ class SimpleColumnsHook extends Frontend {
 				
 				$be_html = '<div>';
 		
-				if (!is_array($simpleColumnCounter))
-				{
-					$simpleColumnCounter = array(2=>0, 3=>0, 4=>0, 5=>0, 6=>0);
-				}
-		
 				$scClass = 'sc sc' . $objElement->simple_columns;
 
 				$columns = (strlen($objElement->simple_columns) == 1 ? (int)$objElement->simple_columns : (int)substr($objElement->simple_columns, 0, 1));
 				$columnCount = (strlen($objElement->simple_columns) == 1 ? 1 : (int)substr($objElement->simple_columns, 2, 1));
 
-				for ($i=0; $i<$simpleColumnCounter[$columns]; $i++)
+				if (TL_MODE == 'BE' && !defined('EX_TL_MODE_FE'))
 				{
-					$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
-				}
-
-				$be_html .= '<img src="system/modules/simple_columns/html/images/column.png" width="'.($columnCount*10+($columnCount-1)*4).'" height="10" alt="" style="margin:2px">';
-
-				for ($i=$simpleColumnCounter[$columns]+$columnCount; $i<$columns; $i++)
-				{
-					$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
-				}
-
-				if (TL_MODE == 'FE')
-				{
-					if ($simpleColumnCounter[$columns] == 0)
+					for ($i=0; $i<$simpleColumnCounter[$columns]; $i++)
 					{
-						$scClass .= ' sc-first sc' . $objElement->simple_columns . '-first';
-						$simpleColumnCounter[$columns] += $columnCount;
-						
+						$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
 					}
-					elseif ($simpleColumnCounter[$columns] < $columns-$columnCount)
+	
+					$be_html .= '<img src="system/modules/simple_columns/html/images/column.png" width="'.($columnCount*10+($columnCount-1)*4).'" height="10" alt="" style="margin:2px">';
+
+					if ($objElement->simple_columns_close)
 					{
-						$simpleColumnCounter[$columns] += $columnCount;
+						$be_html .= '<img src="system/themes/default/images/close.gif" width="10" height="10" alt="" style="margin:2px">';
+#						$be_html .= '<span style="font-size:10px">/|</style>';
 					}
 					else
 					{
-						$scClass .= ' sc-last sc' . $objElement->simple_columns . '-last';
-						$simpleColumnCounter[$columns] = 0;
-						$objElement->simple_columns_close = true;
+						for ($i=$simpleColumnCounter[$columns]+$columnCount; $i<$columns; $i++)
+						{
+							$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px">';
+						}
 					}
-	
-					if ($this->simple_columns_close)
-					{
-						$scClass .= ' sc-close';
-					}
-	
+				}
+
+				if ($simpleColumnCounter[$columns] == 0)
+				{
+					$scClass .= ' sc-first sc' . $objElement->simple_columns . '-first';
+					$simpleColumnCounter[$columns] += $columnCount;
+					
+				}
+				elseif ($simpleColumnCounter[$columns] < $columns-$columnCount)
+				{
+					$simpleColumnCounter[$columns] += $columnCount;
+				}
+				else
+				{
+					$scClass .= ' sc-last sc' . $objElement->simple_columns . '-last';
+					$simpleColumnCounter[$columns] = 0;
+					$objElement->simple_columns_close = true;
+				}
+
+				if ($objElement->simple_columns_close)
+				{
+					$scClass .= ' sc-close';
+					$simpleColumnCounter[$columns] = 0;
+				}
+
+				if (TL_MODE == 'FE' || defined('EX_TL_MODE_FE'))
+				{	
 					$count = 0;
 					$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
 					
@@ -112,7 +119,7 @@ class SimpleColumnsHook extends Frontend {
 					}
 				}
 				
-				if (TL_MODE == 'BE')
+				if (TL_MODE == 'BE' && !defined('EX_TL_MODE_FE'))
 				{
 					$strBuffer = $be_html . '</div>' . $strBuffer;
 				}

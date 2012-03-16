@@ -27,6 +27,8 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
+$GLOBALS['simpleColumnCounter'] = array(2=>0, 3=>0, 4=>0, 5=>0, 6=>0);
+
 $GLOBALS['SIMPLECOLUMNS'] = array
 (					
 	'style' => 'system/modules/simple_columns/html/css/simple_columns.css',

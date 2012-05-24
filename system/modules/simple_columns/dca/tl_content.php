@@ -47,10 +47,21 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
 
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 {
-	$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace(
-		'{expert_legend:hide}', '{simple_columns_legend},simple_columns,simple_columns_close;{expert_legend:hide}',
-		$GLOBALS['TL_DCA']['tl_content']['palettes'][$key]
-	);
-}
+	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_close';
 
-?>
+	if (!is_array($palette))
+	{
+		if (strpos($palette, '{expert_legend:hide}') !== FALSE)
+		{
+			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{expert_legend:hide}', $strPalette.';{expert_legend:hide}', $palette);
+		}
+		elseif (strpos($palette, '{protected_legend:hide}') !== FALSE)
+		{
+			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{protected_legend:hide}', $strPalette.';{protected_legend:hide}', $palette);
+		}
+		else
+		{
+			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] .= ';'.$strPalette;
+		}
+	}
+}

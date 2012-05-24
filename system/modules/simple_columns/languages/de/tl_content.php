@@ -23,5 +23,3 @@ $GLOBALS['TL_LANG']['tl_content']['simple_columns']['reference'] = array(
 );
 
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_close'] = array('Zeile manuell schließen', 'Zeile manuell schließen und nächste Spalte in einer neuen Zeile anfangen.');
-
-?>

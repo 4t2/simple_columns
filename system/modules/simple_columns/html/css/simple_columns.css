@@ -13,6 +13,12 @@
 	clear:left;
 }
 
+.sc-rowspan > *
+{
+	margin: 0!important;
+	padding: 0!important;
+}
+
 /* 2-spaltig */
 .sc2 {
 	width:49.5%;padding-right:1%;float:left;display:inline;

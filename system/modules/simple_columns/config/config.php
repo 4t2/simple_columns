@@ -28,16 +28,15 @@
  */
 
 $GLOBALS['simpleColumnCounter'] = array(2=>0, 3=>0, 4=>0, 5=>0, 6=>0);
+$GLOBALS['simpleColumnRowspanCounter'] = 0;
+$GLOBALS['simpleColumnBeHtml'] = '';
 
 $GLOBALS['SIMPLECOLUMNS'] = array
 (					
 	'style' => 'system/modules/simple_columns/html/css/simple_columns.css',
-	'close' => '<div class="sc-clear"></div>'
-);
+	'close' => '<div class="sc-clear"></div>');
 
 /**
  * Hook
  */
 $GLOBALS['TL_HOOKS']['getContentElement'][] = array('SimpleColumnsHook', 'myGetContentElement');
-
-?>

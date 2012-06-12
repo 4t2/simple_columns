@@ -26,28 +26,44 @@
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
- 
+
+if (TL_MODE == 'BE')
+{
+	$GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = array('simpleColumns', 'onLoadCallback');
+}
+
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_content']['simple_columns']['title'],
-	'exclude'                 => true,
-	'inputType'               => 'select',
-	'options'				  => array('2', '3', '3-2', '4', '4-2', '4-3', '5', '5-2', '5-3', '5-4'),
-	'reference'				  => &$GLOBALS['TL_LANG']['tl_content']['simple_columns']['reference'],
-	'eval'                    => array('includeBlankOption'=>true, 'maxlength'=>3, 'tl_class'=>'w50')
+	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns']['title'],
+	'exclude'		=> true,
+	'inputType'		=> 'select',
+	'options'		=> array('2', '3', '3-2', '4', '4-2', '4-3', '5', '5-2', '5-3', '5-4'),
+	'reference'		=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns']['reference'],
+	'eval'			=> array('includeBlankOption'=>true, 'maxlength'=>3, 'tl_class'=>'w50')
+);
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['title'],
+	'default'		=> '0',
+	'exclude'		=> true,
+	'inputType'		=> 'select',
+	'options'		=> array(0, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+	'reference'		=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['reference'],
+	'eval'			=> array('tl_class'=>'w50')
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
 (
 	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_close'],
-	'exclude'                 => true,
+	'exclude'		=> true,
 	'inputType'		=> 'checkbox',
-	'eval'			=> array('tl_class'=>'w50 m12')
+	'eval'			=> array('tl_class'=>'w50')
 );
 
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 {
-	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_close';
+	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close';
 
 	if (!is_array($palette))
 	{
@@ -64,4 +80,56 @@ foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] .= ';'.$strPalette;
 		}
 	}
+}
+
+class simpleColumns extends Backend
+{
+	public function onLoadCallback(DataContainer $dc)
+	{
+		$objContent = $this->Database->prepare('SELECT `id`,`simple_columns`,`simple_columns_rowspan` FROM `tl_content` WHERE `pid` = (SELECT `pid` FROM `tl_content` WHERE `id`=?) AND `invisible`="" ORDER BY `sorting`')->execute($dc->id);
+		
+		$rowspan = 0;
+		
+		while ($objContent->next())
+		{
+			if ($objContent->id == $dc->id)
+			{
+				break;
+			}
+			
+			if ($rowspan > 0)
+			{
+				$rowspan--;
+			}
+			elseif ($objContent->simple_columns != '' && $objContent->simple_columns_rowspan > 1)
+			{
+				$rowspan = $objContent->simple_columns_rowspan-1;
+			}
+		}
+
+		if ($rowspan > 0)
+		{
+			$GLOBALS['TL_LANG']['tl_content']['simple_columns_legend'] = $GLOBALS['TL_LANG']['tl_content']['simple_columns_legend_ignore'];
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns']['eval']['disabled'] = true;
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan']['eval']['disabled'] = true;
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close']['eval']['disabled'] = true;
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns']['input_field_callback'] = array('simpleColumns', 'disabledField');
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan']['input_field_callback'] = array('simpleColumns', 'hiddenField');
+#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close']['input_field_callback'] = array('simpleColumns', 'hiddenField');
+		}
+
+#die(var_export($dc, true));
+#die($dc->id);
+	}
+
+	public function disabledField($dc)
+	{
+		return '<p>Disabled</p>';
+	}
+	
+	public function hiddenField($dc)
+	{
+		return '';
+	}
+	
 }

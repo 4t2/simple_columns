@@ -33,7 +33,7 @@ $GLOBALS['simpleColumnBeHtml'] = '';
 
 $GLOBALS['SIMPLECOLUMNS'] = array
 (					
-	'style' => 'system/modules/simple_columns/html/css/simple_columns.css',
+	'style' => 'system/modules/simple_columns/assets/styles/simple_columns.css',
 	'close' => '<div class="sc-clear"></div>');
 
 /**

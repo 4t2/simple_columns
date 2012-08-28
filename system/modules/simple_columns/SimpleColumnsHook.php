@@ -27,8 +27,8 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
-class SimpleColumnsHook extends Frontend {
-
+class SimpleColumnsHook extends Frontend
+{
 	public function myGetContentElement($objElement, $strBuffer)
 	{
 		/* defined in config/config.php */
@@ -39,7 +39,7 @@ class SimpleColumnsHook extends Frontend {
 			return $strBuffer;
 		}
 
-		if (preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if (preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
 			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']))
 			{
@@ -82,10 +82,10 @@ class SimpleColumnsHook extends Frontend {
 				{
 					for ($i=0; $i<$simpleColumnCounter[$columns]; $i++)
 					{
-						$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px 2px '.($simpleColumnRowspan?'12':'2').'px 2px">';
+						$be_html .= '<img src="system/modules/simple_columns/assets/images/empty.png" width="10" height="10" alt="" style="margin:2px 2px '.($simpleColumnRowspan?'12':'2').'px 2px">';
 					}
 	
-					$be_html .= '<img src="system/modules/simple_columns/html/images/column.png" width="'.($columnCount*10+($columnCount-1)*4).'" height="'.($simpleColumnRowspan?'20':'10').'" alt="" style="margin:2px">';
+					$be_html .= '<img src="system/modules/simple_columns/assets/images/column.png" width="'.($columnCount*10+($columnCount-1)*4).'" height="'.($simpleColumnRowspan?'20':'10').'" alt="" style="margin:2px">';
 
 					if ($objElement->simple_columns_close)
 					{
@@ -95,7 +95,7 @@ class SimpleColumnsHook extends Frontend {
 					{
 						for ($i=$simpleColumnCounter[$columns]+$columnCount; $i<$columns; $i++)
 						{
-							$be_html .= '<img src="system/modules/simple_columns/html/images/empty.png" width="10" height="10" alt="" style="margin:2px 2px '.($simpleColumnRowspan?'12':'2').'px 2px">';
+							$be_html .= '<img src="system/modules/simple_columns/assets/images/empty.png" width="10" height="10" alt="" style="margin:2px 2px '.($simpleColumnRowspan?'12':'2').'px 2px">';
 						}
 					}
 				}
@@ -180,5 +180,3 @@ class SimpleColumnsHook extends Frontend {
 	}
 
 }
-
-?>

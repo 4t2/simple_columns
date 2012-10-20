@@ -139,6 +139,13 @@ class SimpleColumnsHook extends Frontend
 				{
 					if ($startRowspan)
 					{
+						$cssIdClass = deserialize($objElement->cssID);
+
+						if (strlen($cssIdClass[1]))
+						{
+							$scClass .= ' '.$cssIdClass[1];
+						}
+
 						$strBuffer = '<div class="'.$scClass.'">'.$strBuffer;
 					}
 					elseif ($closeRowspan)

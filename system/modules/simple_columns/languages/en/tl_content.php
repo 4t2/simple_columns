@@ -38,3 +38,4 @@ $GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['reference'] = array
 );
 
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_close'] = array('Force to close row', 'Close the row and start next on new row.');
+$GLOBALS['TL_LANG']['tl_content']['simple_columns_wrapper'] = array('Add a wrapper element', 'Add a DIV as wrapper element. Need on modules.');

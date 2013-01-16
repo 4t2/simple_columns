@@ -21,8 +21,8 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2012
- * @author     Mario Müller <http://www.lingo4u.de/>
+ * @copyright  Lingo4you 2013
+ * @author     Mario Müller <http://www.lingolia.com/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -32,14 +32,14 @@ class SimpleColumnsHook extends Frontend
 	public function myGetContentElement($objElement, $strBuffer)
 	{
 		/* defined in config/config.php */
-		global $simpleColumnCounter, $simpleColumnRowspanCounter, $simpleColumnBeHtml;
+		global $simpleColumnCounter, $simpleColumnRowspanCounter, $simpleColumnClose, $simpleColumnBeHtml;
 
 		if ($objElement->simple_columns == '' && $simpleColumnRowspanCounter < 2)
 		{
 			return $strBuffer;
 		}
 
-		if (preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
 			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']))
 			{
@@ -67,6 +67,7 @@ class SimpleColumnsHook extends Frontend
 				elseif ($objElement->simple_columns_rowspan > 1)
 				{
 					$simpleColumnRowspanCounter = $objElement->simple_columns_rowspan;
+					$simpleColumnClose = $objElement->simple_columns_close;
 					$startRowspan = true;
 					$simpleColumnRowspan = true;
 				}
@@ -155,17 +156,25 @@ class SimpleColumnsHook extends Frontend
 					elseif (!$simpleColumnRowspan)
 					{
 						$count = 0;
-						$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
 						
-						if ($count < 1)
+						if ($objElement->simple_columns_wrapper)
 						{
-							$match[2] = str_replace('>', ' class="'.$scClass.'">', $match[2]);
+							$strBuffer = '<div class="'.$scClass.'">'.$strBuffer.'</div>';
 						}
-						
-						$strBuffer = $match[1].$match[2].$match[3];
+						else
+						{
+							$match[2] = preg_replace('~(class="[^"]*)"~iU', '$1 '.$scClass.'"', $match[2], 1, $count);
+							
+							if ($count < 1)
+							{
+								$match[2] = str_replace('>', ' class="'.$scClass.'">', $match[2]);
+							}
+							
+							$strBuffer = $match[1].$match[2].$match[3];
+						}
 					}
 
-					if ($objElement->simple_columns_close && !empty($GLOBALS['SIMPLECOLUMNS']['close']) && (!$simpleColumnRowspan || $closeRowspan))
+					if (!empty($GLOBALS['SIMPLECOLUMNS']['close']) && ($objElement->simple_columns_close || $simpleColumnClose) && (!$simpleColumnRowspan || $closeRowspan))
 					{
 						$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
 					}

@@ -38,3 +38,4 @@ $GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['reference'] = array
 );
 
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_close'] = array('Zeile manuell schließen', 'Zeile manuell schließen und nächste Spalte in einer neuen Zeile anfangen.');
+$GLOBALS['TL_LANG']['tl_content']['simple_columns_wrapper'] = array('Umschlag-Element hinzufügen', 'Um das Element wird ein DIV hinzugefügt. Wird bei Modulen benötigt.');

@@ -61,9 +61,17 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
 	'eval'			=> array('tl_class'=>'w50')
 );
 
+$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_wrapper'],
+	'exclude'		=> true,
+	'inputType'		=> 'checkbox',
+	'eval'			=> array('tl_class'=>'w50')
+);
+
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 {
-	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close';
+	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper';
 
 	if (!is_array($palette))
 	{
@@ -117,9 +125,6 @@ class simpleColumns extends Backend
 #			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan']['input_field_callback'] = array('simpleColumns', 'hiddenField');
 #			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close']['input_field_callback'] = array('simpleColumns', 'hiddenField');
 		}
-
-#die(var_export($dc, true));
-#die($dc->id);
 	}
 
 	public function disabledField($dc)

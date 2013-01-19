@@ -76,6 +76,17 @@ class SimpleColumnsHook extends Frontend
 
 				$scClass = 'sc sc' . $objElement->simple_columns;
 
+				if ($objElement->simple_columns_autoheight)
+				{
+					if (!defined('SIMPLE_COLUMNS_JS_LINK'))
+					{
+						$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/simple_columns/assets/scripts/moo_simple_columns.js';	
+						define('SIMPLE_COLUMNS_JS_LINK', 1);
+					}
+
+					$scClass .= ' sc-autoheight';
+				}
+
 				$columns = (strlen($objElement->simple_columns) == 1 ? (int)$objElement->simple_columns : (int)substr($objElement->simple_columns, 0, 1));
 				$columnCount = (strlen($objElement->simple_columns) == 1 ? 1 : (int)substr($objElement->simple_columns, 2, 1));
 

@@ -69,9 +69,17 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
 	'eval'			=> array('tl_class'=>'w50')
 );
 
+$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_autoheight'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_autoheight'],
+	'exclude'		=> true,
+	'inputType'		=> 'checkbox',
+	'eval'			=> array('tl_class'=>'w50')
+);
+
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 {
-	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper';
+	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper,simple_columns_autoheight';
 
 	if (!is_array($palette))
 	{

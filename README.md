@@ -25,3 +25,5 @@ Damit kann jedes Element eindeutig identifiziert und definiert werden.
 Die Standardstyles arbeiten mit Prozentangaben und sollten mit den meisten Layout funktionieren. In den Inhaltselementen müssen keine Zeilen begonnen oder beendet werden, das geschieht automatisch. Wichtig ist nur, dass pro Zeile immer die passenden Spalten vorhanden sind.
 
 Zusätzlich kann eine Zeile auch manuell beendet werden, sodass bspw. eine 3-spaltige Zeile schon nach zwei Elementen endet. Dies ist aber nur notwendig, wenn die Zeile vorzeitig beendet werden soll oder wenn nachfolgende Elemente, die nicht mit `simple_columns` positioniert werden, nicht richtig dargestellt werden.
+
+Über einen zusätzlichen Parameter kann eine Spalte an die Höhe der höchsten Spalte in der Zeile angepasst werden, so dass sich bspw. Zeilen mit gleich hohen Spalten realisieren lassen. Dazu wird ein kleines JavaScript eingebunden, welches die MooTools benötigt.

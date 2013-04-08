@@ -21,8 +21,8 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2011
- * @author     Mario Müller <http://www.lingo4u.de/>
+ * @copyright  Lingo4you 2013
+ * @author     Mario Müller <http://www.lingolia.com/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
@@ -100,7 +100,7 @@ foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 
 class simpleColumns extends Backend
 {
-	public function onLoadCallback(DataContainer $dc)
+	public function onLoadCallback($dc)
 	{
 		$objContent = $this->Database->prepare('SELECT `id`,`simple_columns`,`simple_columns_rowspan` FROM `tl_content` WHERE `pid` = (SELECT `pid` FROM `tl_content` WHERE `id`=?) AND `invisible`="" ORDER BY `sorting`')->execute($dc->id);
 		
@@ -126,12 +126,6 @@ class simpleColumns extends Backend
 		if ($rowspan > 0)
 		{
 			$GLOBALS['TL_LANG']['tl_content']['simple_columns_legend'] = $GLOBALS['TL_LANG']['tl_content']['simple_columns_legend_ignore'];
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns']['eval']['disabled'] = true;
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan']['eval']['disabled'] = true;
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close']['eval']['disabled'] = true;
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns']['input_field_callback'] = array('simpleColumns', 'disabledField');
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan']['input_field_callback'] = array('simpleColumns', 'hiddenField');
-#			$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close']['input_field_callback'] = array('simpleColumns', 'hiddenField');
 		}
 	}
 

@@ -5,7 +5,7 @@
  */
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_legend'] = 'Spalteneinstellungen';
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_legend_ignore'] = 'Spalteneinstellungen <span style="color:#c00">(wird wegen vorherigem Element ignoriert)</span>';
- 
+
 /**
  * References
  */
@@ -39,4 +39,4 @@ $GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['reference'] = array
 
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_close'] = array('Zeile manuell schließen', 'Zeile manuell schließen und nächste Spalte in einer neuen Zeile anfangen.');
 $GLOBALS['TL_LANG']['tl_content']['simple_columns_wrapper'] = array('Umschlag-Element hinzufügen', 'Um das Element wird ein DIV hinzugefügt. Wird bei Modulen benötigt.');
-$GLOBALS['TL_LANG']['tl_content']['simple_columns_autoheight'] = array('Zeilenhöhe anpassen', 'Das Element wird so hoch wie das höchste Element in der Zeile.');
+$GLOBALS['TL_LANG']['tl_content']['simple_columns_autoheight'] = array('Gleiche Spaltenhöhe', 'Das Element wird so hoch wie das höchste Element in der Zeile.');

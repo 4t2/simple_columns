@@ -39,7 +39,16 @@ class SimpleColumnsHook extends Frontend
 			return $strBuffer;
 		}
 
-		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		/**
+		 * fix for site_export extension because rendering twice
+		 */
+		if (($this->Input->get('export') == '1' && $this->Input->get('layout') != '') && !isset($GLOBALS['SITE_EXPORT']))
+		{
+			return $strBuffer;
+		}
+
+		#if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
 			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']))
 			{
@@ -74,7 +83,7 @@ class SimpleColumnsHook extends Frontend
 
 				$be_html = '<div>';
 
-				$scClass = 'sc sc' . $objElement->simple_columns;
+				$scClass = 'sc sc' . $objElement->simple_columns . ' sc-count'.$GLOBALS['SIMPLECOLUMNS']['count']++;
 
 				if ($objElement->simple_columns_autoheight)
 				{
@@ -147,7 +156,7 @@ class SimpleColumnsHook extends Frontend
 					$simpleColumnCounter[$columns] = 0;
 				}
 				
-				if (TL_MODE == 'FE' || defined('EX_TL_MODE_FE'))
+				if (TL_MODE == 'FE')
 				{
 					if ($startRowspan)
 					{

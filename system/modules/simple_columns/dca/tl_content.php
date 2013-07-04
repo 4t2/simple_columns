@@ -39,7 +39,12 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns'] = array
 	'inputType'		=> 'select',
 	'options'		=> array('2', '3', '3-2', '4', '4-2', '4-3', '5', '5-2', '5-3', '5-4'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns']['reference'],
-	'eval'			=> array('includeBlankOption'=>true, 'maxlength'=>3, 'tl_class'=>'w50')
+	'eval'			=> array
+	(
+		'includeBlankOption'	=> true,
+		'maxlength'				=> 3,
+		'tl_class'				=> 'w50'
+	)
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan'] = array
@@ -50,7 +55,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan'] = array
 	'inputType'		=> 'select',
 	'options'		=> array(0, 2, 3, 4, 5, 6, 7, 8, 9, 10),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_rowspan']['reference'],
-	'eval'			=> array('tl_class'=>'w50')
+	'eval'			=> array
+	(
+		'tl_class'				=> 'w50'
+	)
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
@@ -58,7 +66,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
 	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_close'],
 	'exclude'		=> true,
 	'inputType'		=> 'checkbox',
-	'eval'			=> array('tl_class'=>'w50')
+	'eval'			=> array
+	(
+		'tl_class'				=> 'w50'
+	)
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
@@ -66,7 +77,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
 	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_wrapper'],
 	'exclude'		=> true,
 	'inputType'		=> 'checkbox',
-	'eval'			=> array('tl_class'=>'w50')
+	'eval'			=> array
+	(
+		'tl_class'				=> 'w50'
+	)
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_autoheight'] = array
@@ -74,12 +88,28 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_autoheight'] = array
 	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_autoheight'],
 	'exclude'		=> true,
 	'inputType'		=> 'checkbox',
-	'eval'			=> array('tl_class'=>'w50')
+	'eval'			=> array
+	(
+		'tl_class'				=> 'w50'
+	)
 );
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_border'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_content']['simple_columns_border'],
+	'exclude'		=> true,
+	'inputType'		=> 'checkbox',
+	'eval'			=> array
+	(
+		'tl_class'				=> 'w50',
+		'disabled'				=> ($GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing'] != 'border-box')
+	)
+);
+
 
 foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 {
-	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper,simple_columns_autoheight';
+	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper,simple_columns_autoheight,simple_columns_border';
 
 	if (!is_array($palette))
 	{
@@ -98,12 +128,22 @@ foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
 	}
 }
 
+
 class simpleColumns extends Backend
 {
 	public function onLoadCallback($dc)
 	{
-		$objContent = $this->Database->prepare('SELECT `id`,`simple_columns`,`simple_columns_rowspan` FROM `tl_content` WHERE `pid` = (SELECT `pid` FROM `tl_content` WHERE `id`=?) AND `invisible`="" ORDER BY `sorting`')->execute($dc->id);
-		
+		$objContent = $this->Database->prepare('
+			SELECT
+				`id`,`simple_columns`,`simple_columns_rowspan`
+			FROM
+				`tl_content`
+			WHERE
+				`pid` = (SELECT `pid` FROM `tl_content` WHERE `id`=?) AND `invisible`=""
+			ORDER BY
+				`sorting`
+		')->execute($dc->id);
+
 		$rowspan = 0;
 		
 		while ($objContent->next())

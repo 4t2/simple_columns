@@ -32,10 +32,17 @@ $GLOBALS['simpleColumnRowspanCounter'] = 0;
 $GLOBALS['simpleColumnClose'] = false;
 $GLOBALS['simpleColumnBeHtml'] = '';
 
+$GLOBALS['TL_CONFIG']['simpleColumnsFramework'] = 'auto';
+$GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing'] = 'content-box';
+
 $GLOBALS['SIMPLECOLUMNS'] = array
 (
 	'count' => 0,
-	'style' => 'system/modules/simple_columns/assets/styles/simple_columns.css',
+	'style' => array
+	(
+		'content-box' 	=> 'system/modules/simple_columns/assets/styles/simple_columns.css',
+		'border-box' 	=> 'system/modules/simple_columns/assets/styles/simple_columns_bb.css'
+	),
 	'close' => '<div class="sc-clear"></div>');
 
 /**

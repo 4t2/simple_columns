@@ -1,0 +1,148 @@
+/**
+ * Simple Columns Stylesheet with border-box model
+ */
+
+/* allgemeine Definition */
+.sc
+{
+	box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	-webkit-box-sizing: border-box !important;
+	margin-left:0 !important;
+	margin-right:0 !important;
+	padding-left:0 !important;
+	clear: none !important;
+	padding-left: 15px !important;
+	float: left;
+}
+.sc-first
+{
+	clear: left;
+	padding-left: 0 !important;
+}
+.sc-last
+{
+}
+.sc-clear
+{
+	clear:left;
+}
+.sc-border
+{
+	padding-right: 15px !important;
+	border-right: 1px solid silver;
+}
+
+.sc-rowspan > *
+{
+	margin: 0!important;
+	padding: 0!important;
+}
+
+/* 2-spaltig */
+.sc2
+{
+	width: 50%;
+}
+.sc2-first
+{
+}
+.sc2-last
+{
+}
+
+/* 3-spaltig */
+.sc3
+{
+	width: 33.3%;
+}
+.sc3-first
+{
+}
+.sc3-last
+{
+}
+.sc3-2
+{
+	width: 66.6%;
+}
+.sc3-2-first
+{
+}
+.sc3-2-last
+{
+}
+
+/* 4-spaltig */
+.sc4
+{
+	width: 25%;
+}
+.sc4-first
+{
+}
+.sc4-last
+{
+}
+.sc4-2
+{
+	width: 50%;
+}
+.sc4-2-first
+{
+}
+.sc4-2-last
+{
+}
+.sc4-3
+{
+	width: 75%;
+}
+.sc4-3-first
+{
+}
+.sc4-3-last
+{
+}
+
+/* 5-spaltig */
+.sc5
+{
+	width:20%;
+}
+.sc5-first
+{
+}
+.sc5-last
+{
+}
+.sc5-2
+{
+	width:40%;
+}
+.sc5-2-first
+{
+}
+.sc5-2-last
+{
+}
+.sc5-3
+{
+	width: 60%;
+}
+.sc5-3-first
+{
+}
+.sc5-3-last
+{
+}
+.sc5-4
+{
+	width: 80%;
+}
+.sc5-4-first
+{
+}
+.sc5-4-last
+{
+}

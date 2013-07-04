@@ -47,12 +47,12 @@ class SimpleColumnsHook extends Frontend
 			return $strBuffer;
 		}
 
-		#if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
-		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		#if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
-			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']))
+			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']) && isset($GLOBALS['SIMPLECOLUMNS']['style'][$GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing']]))
 			{
-				$GLOBALS['TL_CSS'][] = $GLOBALS['SIMPLECOLUMNS']['style'];
+				$GLOBALS['TL_CSS'][] = $GLOBALS['SIMPLECOLUMNS']['style'][$GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing']];
 				$GLOBALS['SIMPLECOLUMNS']['style'] = '';
 			}
 
@@ -83,13 +83,22 @@ class SimpleColumnsHook extends Frontend
 
 				$be_html = '<div>';
 
-				$scClass = 'sc sc' . $objElement->simple_columns . ' sc-count'.$GLOBALS['SIMPLECOLUMNS']['count']++;
+				$scClass = 'sc sc' . $objElement->simple_columns . ' sc-count'.$GLOBALS['SIMPLECOLUMNS']['count']++ . ($objElement->simple_columns_border?' sc-border':'');
 
 				if ($objElement->simple_columns_autoheight)
 				{
 					if (!defined('SIMPLE_COLUMNS_JS_LINK'))
 					{
-						$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/simple_columns/assets/scripts/moo_simple_columns.js';	
+						if ($GLOBALS['TL_CONFIG']['simpleColumnsFramework'] == 'mootools' ||
+							($GLOBALS['TL_CONFIG']['simpleColumnsFramework'] == 'auto' && (version_compare(VERSION, '3', '<') || $objPage->hasMooTools)))
+						{
+							$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/simple_columns/assets/scripts/moo_simple_columns.js';
+						}
+						elseif ($GLOBALS['TL_CONFIG']['simpleColumnsFramework'] == 'jquery' || $objPage->hasJQuery)
+						{
+							$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/simple_columns/assets/scripts/jquery_simple_columns.js';
+						}
+
 						define('SIMPLE_COLUMNS_JS_LINK', 1);
 					}
 
@@ -99,7 +108,7 @@ class SimpleColumnsHook extends Frontend
 				$columns = (strlen($objElement->simple_columns) == 1 ? (int)$objElement->simple_columns : (int)substr($objElement->simple_columns, 0, 1));
 				$columnCount = (strlen($objElement->simple_columns) == 1 ? 1 : (int)substr($objElement->simple_columns, 2, 1));
 
-				if (TL_MODE == 'BE' && !defined('EX_TL_MODE_FE'))
+				if (TL_MODE == 'BE')
 				{
 					for ($i=0; $i<$simpleColumnCounter[$columns]; $i++)
 					{
@@ -200,7 +209,7 @@ class SimpleColumnsHook extends Frontend
 					}
 				}
 				
-				if (TL_MODE == 'BE' && !defined('EX_TL_MODE_FE'))
+				if (TL_MODE == 'BE')
 				{
 					$strBuffer = ($simpleColumnRowspan ? $simpleColumnBeHtml : $be_html) . '</div>' . $strBuffer;
 				}				

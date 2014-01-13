@@ -42,12 +42,12 @@ class SimpleColumnsHook extends Frontend
 		/**
 		 * fix for site_export extension because rendering twice
 		 */
-		if (($this->Input->get('export') == '1' && $this->Input->get('layout') != '') && !isset($GLOBALS['SITE_EXPORT']))
+		if (version_compare(VERSION, '3', '<') && ($this->Input->get('export') == '1' && $this->Input->get('layout') != '') && !isset($GLOBALS['SITE_EXPORT']))
 		{
 			return $strBuffer;
 		}
 
-		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(?!<script)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		#if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
 			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']) && isset($GLOBALS['SIMPLECOLUMNS']['style'][$GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing']]))
@@ -61,22 +61,22 @@ class SimpleColumnsHook extends Frontend
 				$startRowspan = false;
 				$closeRowspan = false;
 				$simpleColumnRowspan = false;
+				$simpleColumnRowspanCounter--;
 
-				if ($simpleColumnRowspanCounter > 2)
+				if ($simpleColumnRowspanCounter > 1)
 				{
-					$simpleColumnRowspanCounter--;
 					$simpleColumnRowspan = true;
 				}
-				elseif ($simpleColumnRowspanCounter == 2)
+				elseif ($simpleColumnRowspanCounter == 1)
 				{
 					$closeRowspan = true;
 					$simpleColumnRowspan = true;
 					$simpleColumnRowspanCounter = 0;
+					$objElement->simple_columns_close = $simpleColumnClose;
 				}
 				elseif ($objElement->simple_columns_rowspan > 1)
 				{
 					$simpleColumnRowspanCounter = $objElement->simple_columns_rowspan;
-					$simpleColumnClose = $objElement->simple_columns_close;
 					$startRowspan = true;
 					$simpleColumnRowspan = true;
 				}
@@ -203,7 +203,7 @@ class SimpleColumnsHook extends Frontend
 						}
 					}
 
-					if (!empty($GLOBALS['SIMPLECOLUMNS']['close']) && ($objElement->simple_columns_close || $simpleColumnClose) && (!$simpleColumnRowspan || $closeRowspan))
+					if (!empty($GLOBALS['SIMPLECOLUMNS']['close']) && ($objElement->simple_columns_close) && (!$simpleColumnRowspan || $closeRowspan))
 					{
 						$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
 					}
@@ -215,6 +215,8 @@ class SimpleColumnsHook extends Frontend
 				}				
 			}
 			
+			$simpleColumnClose = $objElement->simple_columns_close;
+
 			if ($closeRowspan)
 			{
 				$simpleColumnRowspan = false;

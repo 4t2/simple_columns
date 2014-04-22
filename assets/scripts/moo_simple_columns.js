@@ -10,7 +10,7 @@ window.addEvent('domready', function()
 	$$('.sc').each(function(column, index)
 	{
 		row.push(column);
-		
+
 		if ((height = column.getComputedSize().totalHeight) > rowHeight)
 		{
 			rowHeight = height;

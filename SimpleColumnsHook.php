@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2013
+ * @copyright  Lingo4you 2014
  * @author     Mario Müller <http://www.lingolia.com/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
@@ -42,12 +42,12 @@ class SimpleColumnsHook extends Frontend
 		/**
 		 * fix for site_export extension because rendering twice
 		 */
-		if (version_compare(VERSION, '3', '<') && ($this->Input->get('export') == '1' && $this->Input->get('layout') != '') && !isset($GLOBALS['SITE_EXPORT']))
+		if (($this->Input->get('export') == '1' && $this->Input->get('layout') != '') && !isset($GLOBALS['SITE_EXPORT']))
 		{
 			return $strBuffer;
 		}
 
-		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(?!<script)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
+		if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(?!<[a-z]+ class="no-no)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		#if ($objElement->simple_columns_wrapper || preg_match('~(.*?)(<[a-z]+[^>]*>)(.*)~ism', $strBuffer, $match))
 		{
 			if (!empty($GLOBALS['SIMPLECOLUMNS']['style']) && isset($GLOBALS['SIMPLECOLUMNS']['style'][$GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing']]))
@@ -61,22 +61,22 @@ class SimpleColumnsHook extends Frontend
 				$startRowspan = false;
 				$closeRowspan = false;
 				$simpleColumnRowspan = false;
-				$simpleColumnRowspanCounter--;
 
-				if ($simpleColumnRowspanCounter > 1)
+				if ($simpleColumnRowspanCounter > 2)
 				{
+					$simpleColumnRowspanCounter--;
 					$simpleColumnRowspan = true;
 				}
-				elseif ($simpleColumnRowspanCounter == 1)
+				elseif ($simpleColumnRowspanCounter == 2)
 				{
 					$closeRowspan = true;
 					$simpleColumnRowspan = true;
 					$simpleColumnRowspanCounter = 0;
-					$objElement->simple_columns_close = $simpleColumnClose;
 				}
 				elseif ($objElement->simple_columns_rowspan > 1)
 				{
 					$simpleColumnRowspanCounter = $objElement->simple_columns_rowspan;
+					$simpleColumnClose = $objElement->simple_columns_close;
 					$startRowspan = true;
 					$simpleColumnRowspan = true;
 				}
@@ -188,7 +188,7 @@ class SimpleColumnsHook extends Frontend
 						
 						if ($objElement->simple_columns_wrapper)
 						{
-							$strBuffer = '<div class="'.$scClass.'">'.$strBuffer.'</div>';
+							$strBuffer = '<div class="'.$scClass.' sc-wrapper">'.$strBuffer.'</div>';
 						}
 						else
 						{
@@ -203,7 +203,7 @@ class SimpleColumnsHook extends Frontend
 						}
 					}
 
-					if (!empty($GLOBALS['SIMPLECOLUMNS']['close']) && ($objElement->simple_columns_close) && (!$simpleColumnRowspan || $closeRowspan))
+					if (!empty($GLOBALS['SIMPLECOLUMNS']['close']) && ($objElement->simple_columns_close || $simpleColumnClose) && (!$simpleColumnRowspan || $closeRowspan))
 					{
 						$strBuffer .= $GLOBALS['SIMPLECOLUMNS']['close'];
 					}
@@ -215,8 +215,6 @@ class SimpleColumnsHook extends Frontend
 				}				
 			}
 			
-			$simpleColumnClose = $objElement->simple_columns_close;
-
 			if ($closeRowspan)
 			{
 				$simpleColumnRowspan = false;

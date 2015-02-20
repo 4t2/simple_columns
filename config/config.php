@@ -21,8 +21,8 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2011
- * @author     Mario Müller <http://www.lingo4u.de/>
+ * @copyright  Lingo4you 2015
+ * @author     Mario Müller <https://www.lingolia.com/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */

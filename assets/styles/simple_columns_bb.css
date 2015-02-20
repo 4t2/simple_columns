@@ -17,7 +17,7 @@
 }
 .sc-first
 {
-	clear: left;
+	clear: both !important;
 	padding-left: 0 !important;
 }
 .sc-last
@@ -25,7 +25,7 @@
 }
 .sc-clear
 {
-	clear:left;
+	clear: left !important;
 }
 .sc-border
 {

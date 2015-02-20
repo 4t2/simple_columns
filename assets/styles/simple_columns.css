@@ -5,7 +5,9 @@
 	padding-left:0 !important;
 	clear:none !important;
 }
-.sc-first {
+.sc-first
+{
+	clear: both !important;
 }
 .sc-last {
 }

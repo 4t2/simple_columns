@@ -21,13 +21,13 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Lingo4you 2015
+ * @copyright  Lingo4you 2016
  * @author     Mario Müller <https://www.lingolia.com/>
  * @package    SimpleColumns
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
-class SimpleColumnsHook extends Frontend
+class SimpleColumnsHook extends \Frontend
 {
 	public function myGetContentElement($objElement, $strBuffer)
 	{

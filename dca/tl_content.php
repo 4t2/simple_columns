@@ -44,7 +44,8 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns'] = array
 		'includeBlankOption'	=> true,
 		'maxlength'				=> 3,
 		'tl_class'				=> 'w50'
-	)
+	),
+	'sql'           => "char(3) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan'] = array
@@ -58,7 +59,8 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_rowspan'] = array
 	'eval'			=> array
 	(
 		'tl_class'				=> 'w50'
-	)
+	),
+	'sql'           => "int(10) unsigned NOT NULL default '0'"
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
@@ -69,7 +71,8 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_close'] = array
 	'eval'			=> array
 	(
 		'tl_class'				=> 'w50'
-	)
+	),
+	'sql'           => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
@@ -80,7 +83,8 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_wrapper'] = array
 	'eval'			=> array
 	(
 		'tl_class'				=> 'w50'
-	)
+	),
+	'sql'           => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_autoheight'] = array
@@ -91,7 +95,8 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_autoheight'] = array
 	'eval'			=> array
 	(
 		'tl_class'				=> 'w50'
-	)
+	),
+	'sql'           => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_border'] = array
@@ -103,36 +108,19 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['simple_columns_border'] = array
 	(
 		'tl_class'				=> 'w50',
 		'disabled'				=> ($GLOBALS['TL_CONFIG']['simpleColumnsBoxSizing'] != 'border-box')
-	)
+	),
+	'sql'           => "char(1) NOT NULL default ''"
 );
 
 
-foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
-{
-	$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper,simple_columns_autoheight,simple_columns_border';
-
-	if (!is_array($palette))
-	{
-		if (strpos($palette, '{expert_legend:hide}') !== FALSE)
-		{
-			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{expert_legend:hide}', $strPalette.';{expert_legend:hide}', $palette);
-		}
-		elseif (strpos($palette, '{protected_legend:hide}') !== FALSE)
-		{
-			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{protected_legend:hide}', $strPalette.';{protected_legend:hide}', $palette);
-		}
-		else
-		{
-			$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] .= ';'.$strPalette;
-		}
-	}
-}
-
-
-class simpleColumns extends Backend
+class simpleColumns extends \Backend
 {
 	public function onLoadCallback($dc)
 	{
+		$this->addPalettes();
+		
+		$this->import('Database');
+
 		$objContent = $this->Database->prepare('
 			SELECT
 				`id`,`simple_columns`,`simple_columns_rowspan`
@@ -179,4 +167,28 @@ class simpleColumns extends Backend
 		return '';
 	}
 	
+	
+	protected function addPalettes()
+	{
+		$strPalette = '{simple_columns_legend},simple_columns,simple_columns_rowspan,simple_columns_close,simple_columns_wrapper,simple_columns_autoheight,simple_columns_border';
+
+		foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $key => $palette)
+		{
+			if (!is_array($palette) && (strpos($palette, '{simple_columns_legend}') === FALSE))
+			{
+				if (strpos($palette, '{expert_legend:hide}') !== FALSE)
+				{
+					$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{expert_legend:hide}', $strPalette.';{expert_legend:hide}', $palette);
+				}
+				elseif (strpos($palette, '{protected_legend:hide}') !== FALSE)
+				{
+					$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] = str_replace('{protected_legend:hide}', $strPalette.';{protected_legend:hide}', $palette);
+				}
+				else
+				{
+					$GLOBALS['TL_DCA']['tl_content']['palettes'][$key] .= ';'.$strPalette;
+				}
+			}
+		}
+	}
 }
